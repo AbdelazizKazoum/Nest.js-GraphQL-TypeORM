@@ -4,12 +4,19 @@ import { Repository } from 'typeorm';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { User } from './user.entity';
+import * as bcrypt from 'bcryptjs';
+
 @Injectable()
 export class UserService {
   constructor(@InjectRepository(User) private repo: Repository<User>) {}
   async create(createUserInput: CreateUserInput) {
-    const { email, password } = createUserInput;
-    const user = this.repo.create({ email, password });
+    const hashedPassword = await bcrypt.hash(createUserInput.password, 10);
+
+    const user = this.repo.create({
+      ...createUserInput,
+      password: hashedPassword,
+    });
+
     return await this.repo.save(user);
   }
   findAll() {
