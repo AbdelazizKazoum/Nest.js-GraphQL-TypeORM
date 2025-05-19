@@ -7,7 +7,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './user/entities/user.entity';
+import { User } from './user/user.entity';
 @Module({
   imports: [
     GraphQLModule.forRoot({
@@ -27,7 +27,6 @@ import { User } from './user/entities/user.entity';
       entities: [User],
       synchronize: true,
     }),
-
     UserModule,
   ],
   controllers: [AppController],
