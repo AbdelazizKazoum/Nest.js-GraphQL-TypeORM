@@ -1,20 +1,21 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Mutation, Args } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
-import { Auth } from './entities/auth.entity';
-import { CreateAuthInput } from './dto/create-auth.input';
-import { UpdateAuthInput } from './dto/update-auth.input';
+import { AuthResponse } from './dto/auth.response';
+import { AuthInput } from './dto/auth.input';
 
-@Resolver(() => Auth)
+@Resolver()
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
 
-  @Mutation(() => Auth)
-  createAuth(@Args('createAuthInput') createAuthInput: CreateAuthInput) {
-    return this.authService.create(createAuthInput);
-  }
-
-  @Query(() => Auth, { name: 'auth' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.authService.findOne(id);
+  @Mutation(() => AuthResponse)
+  async login(@Args('authInput') authInput: AuthInput) {
+    const user = await this.authService.validateUser(
+      authInput.username,
+      authInput.password,
+    );
+    if (!user) {
+      throw new Error('Invalid credentials');
+    }
+    return this.authService.login(user);
   }
 }

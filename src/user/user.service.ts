@@ -19,9 +19,15 @@ export class UserService {
 
     return await this.repo.save(user);
   }
-  findAll() {
-    return `This action returns all user`;
+
+  async findOneByEmail(email: string): Promise<User | undefined> {
+    return await this.repo.findOne({ where: { email } });
   }
+
+  async findAll() {
+    return await this.repo.find();
+  }
+
   findOne(id: number) {
     return `This action returns a #${id} user`;
   }
