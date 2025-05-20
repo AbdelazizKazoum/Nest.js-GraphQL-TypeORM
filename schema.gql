@@ -2,6 +2,15 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input AuthInput {
+  email: String!
+  password: String!
+}
+
+type AuthResponse {
+  access_token: String!
+}
+
 input CreateUserInput {
   email: String!
   password: String!
@@ -9,13 +18,14 @@ input CreateUserInput {
 
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
+  login(authInput: AuthInput!): AuthResponse!
   removeUser(id: Int!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
 }
 
 type Query {
-  helloWorld: String!
   user(id: Int!): User!
+  users: [User!]!
 }
 
 input UpdateUserInput {

@@ -33,9 +33,4 @@ export class UserResolver {
   async users(): Promise<User[]> {
     return await this.userService.findAll();
   }
-
-  @Query((returns) => String)
-  helloWorld() {
-    return 'Hello World';
-  }
 }

@@ -10,7 +10,7 @@ export class AuthResolver {
   @Mutation(() => AuthResponse)
   async login(@Args('authInput') authInput: AuthInput) {
     const user = await this.authService.validateUser(
-      authInput.username,
+      authInput.email,
       authInput.password,
     );
     if (!user) {
